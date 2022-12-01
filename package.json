@@ -12,6 +12,7 @@
     "@fastify/view": "^7.1.2",
     "fastify": "^4.9.2",
     "file-system": "^2.2.2",
+    "fs": "0.0.1-security",
     "handlebars": "^4.7.7",
     "url": "^0.11.0"
   },

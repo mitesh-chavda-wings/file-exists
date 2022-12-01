@@ -5,6 +5,8 @@
 
 const path = require("path");
 var url = require('url');
+var file = require('file-system');
+var fs = require('fs');
 
 // Require the fastify framework and instantiate it
 const fastify = require("fastify")({
@@ -71,22 +73,17 @@ fastify.get("/", function (request, reply) {
  * Accepts body data indicating the user choice
  */
 fastify.post("/", function (request, reply) {
-  var q = url.parse(req.url, true);
-  var searchData = q.query;
-  if(searchData.src){
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-    fs.access(searchData.src, fs.constants.R_OK, (err) => {
+  let color = '/uploads/'+request.body.color;
+    fs.access(color, fs.constants.R_OK, (err) => {
       if (err){
-        res.end('BABA FILE IS NOT FOUND');
+        console.log("file not exists");
         return false;
       }
       else{
-        res.end('BABA FILE IS AVAILABLE');
+        console.log("file exists");
         return false;
       }
     }); 
-  }
 });
 
 // Run the server and report out to the logs
