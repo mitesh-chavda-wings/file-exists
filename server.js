@@ -4,6 +4,7 @@
  */
 
 const path = require("path");
+var url = require('url');
 
 // Require the fastify framework and instantiate it
 const fastify = require("fastify")({
@@ -70,41 +71,22 @@ fastify.get("/", function (request, reply) {
  * Accepts body data indicating the user choice
  */
 fastify.post("/", function (request, reply) {
-  // Build the params object to pass to the template
-  let params = { seo: seo };
-
-  // If the user submitted a color through the form it'll be passed here in the request body
-  let color = request.body.color;
-
-  // If it's not empty, let's try to find the color
-  if (color) {
-    // ADD CODE FROM TODO HERE TO SAVE SUBMITTED FAVORITES
-
-    // Load our color data file
-    const colors = require("./src/colors.json");
-
-    // Take our form submission, remove whitespace, and convert to lowercase
-    color = color.toLowerCase().replace(/\s/g, "");
-
-    // Now we see if that color is a key in our colors object
-    if (colors[color]) {
-      // Found one!
-      params = {
-        color: colors[color],
-        colorError: null,
-        seo: seo,
-      };
-    } else {
-      // No luck! Return the user value as the error property
-      params = {
-        colorError: request.body.color,
-        seo: seo,
-      };
-    }
+  var q = url.parse(req.url, true);
+  var searchData = q.query;
+  if(searchData.src){
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    fs.access(searchData.src, fs.constants.R_OK, (err) => {
+      if (err){
+        res.end('BABA FILE IS NOT FOUND');
+        return false;
+      }
+      else{
+        res.end('BABA FILE IS AVAILABLE');
+        return false;
+      }
+    }); 
   }
-
-  // The Handlebars template will use the parameter values to update the page with the chosen color
-  return reply.view("/src/pages/index.hbs", params);
 });
 
 // Run the server and report out to the logs
