@@ -73,7 +73,7 @@ fastify.get("/", function (request, reply) {
  * Accepts body data indicating the user choice
  */
 fastify.post("/", function (request, reply) {
-  let color = '/uploads/'+request.body.color;
+  let color = 'uploads/'+request.body.color;
     fs.access(color, fs.constants.R_OK, (err) => {
       if (err){
         console.log("file not exists");
