@@ -43,6 +43,7 @@ if (seo.url === "glitch-default") {
 fastify.get("/", function (request, reply) {
   // params is an object we'll pass to our handlebars template
   let params = { seo: seo };
+  
 
   // If someone clicked the option for a random color it'll be passed in the querystring
   if (request.query.randomize) {
